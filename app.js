@@ -30,18 +30,34 @@ const changeTurn = ()=>{
 const checkWin = ()=>{
     let boxtext = document.getElementsByClassName("boxtext");
     console.log(boxtext);
-    let wins = [
-        [0, 1, 2, 5, 4.6, 0],
-        [3, 4, 5, 5, 14.8, 0],
-        [6, 7, 8, 5, 24.8, 0],
-        [0, 3, 6, -5, 14.8, 90],
-        [1, 4, 7, 5, 15, 90],
-        [2, 5, 8, 15.1, 14.8, 90],
-        [0, 4, 8, 5.4, 15.2, 45],
-        [2, 4, 6, 5, 14.8, -45]
-    ]
+    let wins;
+    if(window.innerWidth > 800){  //Viewport > 800px
+        wins = [
+            [0, 1, 2, 5, 4.6, 0],
+            [3, 4, 5, 5, 14.8, 0],
+            [6, 7, 8, 5, 24.8, 0],
+            [0, 3, 6, -5, 14.8, 90],
+            [1, 4, 7, 5, 15, 90],
+            [2, 5, 8, 15.1, 14.8, 90],
+            [0, 4, 8, 5.4, 15.2, 45],
+            [2, 4, 6, 5, 14.8, -45]
+        ]
+    }else{  // Viewport <= 800px
+        wins = [
+            [0, 1, 2, 9, 9.6, 0],
+            [3, 4, 5, 9, 29.8, 0],
+            [6, 7, 8, 9, 49.8, 0],
+            [0, 3, 6, -11, 29.8, 90],
+            [1, 4, 7, 9, 30, 90],
+            [2, 5, 8, 29.1, 29.8, 90],
+            [0, 4, 8, 8.4, 29.2, 45],
+            [2, 4, 6, 9, 29.8, -45]
+        ]
+    }
+    
     wins.forEach(e =>{
         if((boxtext[e[0]].innerText===boxtext[e[1]].innerText) && (boxtext[e[1]].innerText===boxtext[e[2]].innerText) && (boxtext[e[0]].innerText!=="")){
+            
             isgameOver = true;
             gameover.play();
                 if (p1===boxtext[e[0]].innerText){
@@ -55,8 +71,8 @@ const checkWin = ()=>{
                 }
                 console.log(p[1].innerText);
             console.log("Hello");
-            //---------------------------------------------------------------------------------------
-            const count = 2000,
+            //----------------------------For celebration Effect-----------------------------------------------------------
+            const count = 2000,   
             defaults = {
                 origin: { y: 0.8 },
             };
@@ -74,9 +90,13 @@ const checkWin = ()=>{
                 startVelocity: 55,
             });
             //---------------------------------------------------------------------------------------
-            // document.getElementById("#")
             let x = document.querySelector(".imgbox>img").style.width = "200px";
-            document.querySelector(".line").style.width = "20vw";
+            document.querySelector(".line").style.borderRadius = "50px";
+            if(window.innerWidth > 800){
+                document.querySelector(".line").style.width = "20vw";
+            }else{
+                document.querySelector(".line").style.width = "42vw";
+            }
             document.querySelector(".line").style.transform = `translate(${e[3]}vw, ${e[4]}vw) rotate(${e[5]}deg)`;
         }
     })
@@ -87,12 +107,12 @@ let boxes = document.getElementsByClassName("box"); /*It will return a html coll
 Array.from(boxes).forEach(element =>{/*each element = each box*/ 
     let boxtext = element.querySelector('.boxtext');
     element.addEventListener("click",()=>{
+        music.play();
         if(boxtext.innerText===""){
             boxtext.innerText = turn;
             audioturn.play();
             turn = changeTurn();
             checkWin();
-            // document.getElementsByClassName("info")[0].innerText = "Turn for "+turn;
             if(isgameOver==false){
                 if(turn=="X"){
                     document.getElementsByClassName("info")[0].innerHTML = "Turn for "+`<b>${p[0].innerText}->${turn}</b>`;
@@ -107,6 +127,7 @@ Array.from(boxes).forEach(element =>{/*each element = each box*/
 //Add onclick listener to reset button
 let reset = document.querySelector("button");
 reset.addEventListener("click",()=>{
+    music.pause();
     console.log("hello");
     reset.style.boxShadow = "inset -1px -1px 5px #252222,inset 2px 2px 4px #eefffe";
     setTimeout(()=>{
