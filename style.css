@@ -113,7 +113,7 @@ h4{
         flex-wrap: wrap;
     }
     .gameInfo{
-        margin-top: 34px;
+        margin: 34px 0 0 157px;
     }
     .gameInfo h1{
         font-size: 1.7rem;
